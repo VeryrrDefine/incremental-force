@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Incremental Force</title>
+    <link href="style.css" rel="stylesheet">
+    <script src="./js/modules/break_eternity.js"></script>
+    <script src="./js/modules/jquery.js"></script>
+    <script src="./js/modules/popup.js"></script>
+    <script src="./js/format.js"></script>
+    <script src="./js/save.js"></script>
+    <script src="./js/load.js"></script>
+    <script src="./js/main.js"></script>
+    <script src="./js/temp.js"></script>
+</head>
+<body onload="loadGame()">
+  <div id="popup">
+    <div id="popup-ctn">
+        <div id="popup-html"></div>
+        <div id="popup-btns"></div>
+    </div>
+  </div>
+  
+  <aside class="main-sidebar">
+    <menu class="menu">
+        <li class="nav-item actived">主要</li>
+        <li class="nav-item actived">升级</li>
+        <li class="nav-item actived">选项</li>
+        <li class="nav-item actived">成就</li>
+    </menu>
+  </aside>
+  <aside class="right">
+  <button onclick='
+  createPromptPopup("有人问苏联人，可能在梵蒂冈建成社会主义吗")'>e</button>
+  </aside>
+</body>
+<script>
+</script>
+<!--
+<script>
+    var Accidental = {}
+    code = ``
+    
+      regexglobal = /Accidental\.([A-Z]{0,}[1-9]{0,}(_[A-Z]{0,}[1-9]{0,}){0,})/g;
+      for (let property of document.getElementById("code").innerHTML.match(regexglobal)){
+        Object.defineProperty(Accidental,  property.slice(11), {
+            value: property.slice(11)
+        })
+      }
+    eval(code);
+    </script>
+    -->
+</html>
