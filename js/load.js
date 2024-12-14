@@ -5,8 +5,9 @@ function loadGame(start=true, gotNaN=false){
 
     if (start){
         setTimeout(() => {
-            
+            setInterval(autosave, 1000*5)
             setInterval(loop, 1000/FPS)
+            updatenews()
         }, 100)
     }
 }

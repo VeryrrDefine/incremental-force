@@ -5,10 +5,10 @@ function notation(amount){
         amount.sign = 1;
     }
     if (amount.eq(0)){
-        string = "1/Infinity"
+        string = "0.000"
     }
     else if (amount.lt("1")) {
-        string = "1/"+notation(amount.recip());
+        string += "1/"+notation(amount.recip());
     }
     else if (amount.lt("ee6")) {
         let power = Decimal.floor(Decimal.log10(amount));
@@ -45,5 +45,31 @@ function notation(amount){
     }
     else string = "114514";
     return string;
+
+}
+
+
+function formatMass(ex){
+    if (ex.gte(1.5e56)) return notation(ex.div(1.5e56)) + ' uni'
+    if (ex.gte(2.9835e45)) return notation(ex.div(2.9835e45)) + ' MMWG'
+    if (ex.gte(1.989e33)) return notation(ex.div(1.989e33)) + ' M☉'
+    if (ex.gte(5.972e27)) return notation(ex.div(5.972e27)) + ' M⊕'
+    if (ex.gte(1.619e20)) return notation(ex.div(1.619e20)) + ' MME'
+    if (ex.gte(1e6)) return notation(ex.div(1e6)) + ' t'
+    if (ex.gte(1e3)) return notation(ex.div(1e3)) + ' kg'
+    return notation(ex) + ' g'
+}
+
+function formatLength(ex){
+
+    if (ex.gte(1)) return notation(ex.div(1)) + ' m'
+    if (ex.gte(1e-3)) return notation(ex.div(1e-3)) + ' mm'
+    if (ex.gte(1e-6)) return notation(ex.div(1e-6)) + ' μm'
+    if (ex.gte(1e-12)) return notation(ex.div(1e-12)) + ' pm'
+    if (ex.gte(1e-15)) return notation(ex.div(1e-15)) + ' fm'
+    if (ex.gte(1e-18)) return notation(ex.div(1e-18)) + ' am'
+    if (ex.gte(1e-21)) return notation(ex.div(1e-21)) + ' zm'
+    if (ex.gte(1e-24)) return notation(ex.div(1e-24)) + ' ym'
+    return notation(ex.div(1.6e-35)) + ' planck length'
 
 }

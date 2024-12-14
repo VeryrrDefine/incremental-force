@@ -7,6 +7,9 @@ function getPlayerData() {
     let s = {
         latest_time: Date.now(),
         VERSION: VERSION,
+
+        mass: new Decimal(0),
+        speed: new Decimal(0),
     }
 
 
@@ -71,6 +74,10 @@ function save(auto=false) {
     if (localStorage.getItem(SAVE_ID) == '') wipe()
     localStorage.setItem(SAVE_ID,str)
     prevSave = str
+}
+
+function autosave(){
+    save(true)
 }
 
 function load(x){
