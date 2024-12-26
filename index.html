@@ -9,12 +9,17 @@
     <script src="./js/modules/break_eternity.js"></script>
     <script src="./js/modules/jquery.js"></script>
     <script src="./js/modules/popup.js"></script>
+    <script src="./js/htmlgenerator.js"></script>
     <script src="./js/format.js"></script>
+    <script src="./js/scalings.js"></script>
+    <script src="./js/forceupgrade.js"></script>
     <script src="./js/save.js"></script>
     <script src="./js/load.js"></script>
     <script src="./js/main.js"></script>
     <script src="./js/temp.js"></script>
     <script src="./js/newsticker.js"></script>
+    <script src="./js/prestige.js"></script>
+    <script src="./js/onetimeupgrades.js"></script>
 </head>
 <body onload="loadGame()">
   <div id="popup">
@@ -27,34 +32,55 @@
   <aside class="main-sidebar">
     <menu class="menu">
         <li class="nav-item actived" onclick="changeTab('p0_0')">主要</li>
-        <li class="nav-item actived" onclick="changeTab('p0_1')">升级</li>
-        <li class="nav-item actived">选项</li>
-        <li class="nav-item actived">成就</li>
+        <li class="nav-item actived" onclick="changeTab('p1_0')">声望</li>
+        <li class="nav-item-subtab actived hide" p1-subtab onclick="changeTab('p1_0')">重置</li>
+        <li class="nav-item-subtab actived hide" p1-subtab onclick="changeTab('p1_1')">升级</li>
+        <!--
+          <li class="nav-item-subtab actived hide" p1-subtab onclick="changeTab('p1_0')">我是</li>
+        <li class="nav-item-subtab actived hide" p1-subtab onclick="changeTab('p1_1')">我是</li>
+        
+
+        --><li class="nav-item actived" onclick="changeTab('p2_0')">选项</li>
+        <li class="nav-item-subtab actived hide" p2-subtab onclick="changeTab('p2_0')">存档</li>
+        <li class="nav-item-subtab actived hide" p2-subtab onclick="changeTab('p2_1')">显示</li>
+        <li class="nav-item actived" onclick="changeTab('p3_0')">成就</li>
     </menu>
   </aside>
   <aside class="right">
     <div class="news">
         <p id="newsText">来看看这是什么物业 78物业</p><br>
     </div>
+    <p class="text-center" style="margin-top: 5px">你有 <span player-force-dis>X</span> N 力。</p>
     <p class="text-center" style="margin-top: 5px">物体释放了 <span force-dis>X</span> N 力。</p>
-    <p class="text-center"><small><span force-dis>X</span> N = <big><span mass-dis>X</span></big>×<big><span speed-dis>X</span></big>s<sup>-2</sup></small></p>
- 
+    <p class="text-center"><small><span force-dis>X</span> N = <big><span mass-dis>X</span></big>×<big><span speed-dis>X</span></big>/s<sup>2</sup></small></p>
+    
     <div id="p0_0" class="hide">
-      <div class="buildrow" style="font-size: 14px; width: 100%; margin-bottom: 5px;">
-				<div style="width: 300px">
-					<div class="resource">
-						<span style="margin-left: 5px; text-align: left;">增加器 [0]</span>
-					</div>
-				</div>
-				<button class="btn">价格: 0 小朋友</button>
-                <button class="btn" style="width: 120px">购买最大</button>
-				<div style="margin-left: 5px; text-align: left; width: 400px">
-				    力量: 0 小朋友<br>
-				    效果：0 小朋友获取
-				</div>
-			</div>
+      <div id="building_1"></div>
+      <div id="building_2"></div>
+      <div id="building_3"></div>
+      <div id="building_4"></div>
+      <div id="building_6"></div>
     </div>
-    <div id="p0_1" class="hide">特斯拉</div>
+    <div id="p1_0" class="hide">
+      <p class="text-center">到达1e-65 N以声望重置<br>
+        <button class="prestige_reset" onclick="prestigeReset()">重置！</button>
+      </p>
+      <p class="text-center">你有 <span prestige-points-dis></span> 声望点数，使推进器和推进器 II 力量×<span prestige-points-effect></span>， 重置后获得 <span prestige-points-gain></span> 声望点数</p>
+      <div class="text-center hide" after-prestiged>
+        <p>你有 <span extended-mass-display></span> 额外物体质量，增加物体的质量</p>
+        <div id="building_5"></div>
+      </div>
+    </div>
+    <div id="p1_1" class="hide">
+      <div id="main_upg_msg" style="min-height: 100px;"></div>
+      <div id="main_upg_table"></div>
+    </div>
+    <div id="p2_0" class="hide text-center">
+      <button onclick="hardreset()">硬重置</button>
+    </div>
+    <div id="p3_0" class="hide text-center">
+      成就
+    </div>
   </aside>
 </body>
 <script>

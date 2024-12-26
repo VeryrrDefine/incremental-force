@@ -1,3 +1,5 @@
+
+function t(x) { console.log(notation(x));console.log(x.mag, x.layer);}
 function notation(amount){
     let string = "";
     if (amount.sign == -1) {
@@ -7,8 +9,22 @@ function notation(amount){
     if (amount.eq(0)){
         string = "0.000"
     }
-    else if (amount.lt("1")) {
-        string += "1/"+notation(amount.recip());
+    else if (amount.lt(0.001)){
+        if (amount.layer == 0){
+            let power = Math.floor(Math.log10(amount.mag))
+            let mantissa = amount.mag / 10 ** power;
+
+            string = string + mantissa.toFixed(3) + "e" + power;
+        } else if (amount.gt("1e-999999")){
+            let temp1 = Math.floor(-amount.mag)
+            let temp2 = temp1 + amount.mag
+            string = string + (10**temp2*10).toFixed(3) + "e-" + (temp1+1).toString();
+        }else{
+            let temp1 = Decimal.log10(amount).negate()
+            let power = Decimal.floor(Decimal.log10(temp1));
+            let mantissa = temp1.div(Decimal.pow(10, power));
+            string = string + "e-"+mantissa.toFixed(3) + "e" + power;
+        }
     }
     else if (amount.lt("ee6")) {
         let power = Decimal.floor(Decimal.log10(amount));
@@ -43,7 +59,12 @@ function notation(amount){
         }
         string = string + aF.toFixed(3) + "f" + Fb;
     }
-    else string = "114514";
+    else if (!isFinite(amount.mag) && !isFinite(amount.layer)) {
+        string = "Infinity"
+    }
+    else if (isNaN(amount.mag) && isNaN(amount.layer)) {
+        string = "NaN"
+    }
     return string;
 
 }
@@ -57,7 +78,12 @@ function formatMass(ex){
     if (ex.gte(1.619e20)) return notation(ex.div(1.619e20)) + ' MME'
     if (ex.gte(1e6)) return notation(ex.div(1e6)) + ' t'
     if (ex.gte(1e3)) return notation(ex.div(1e3)) + ' kg'
-    return notation(ex) + ' g'
+    if (ex.gte(1)) return notation(ex.div(1)) + ' g'
+    if (ex.gte(1e-3)) return notation(ex.div(1e-3)) + ' mg'
+    if (ex.gte(1e-6)) return notation(ex.div(1e-6)) + ' μg'
+    if (ex.gte(1e-9)) return notation(ex.div(1e-9)) + ' ng'
+    if (ex.gte(1e-12)) return notation(ex.div(1e-12)) + ' pg'
+    return notation(ex.div(1e-15)) + ' fg'
 }
 
 function formatLength(ex){
@@ -65,6 +91,7 @@ function formatLength(ex){
     if (ex.gte(1)) return notation(ex.div(1)) + ' m'
     if (ex.gte(1e-3)) return notation(ex.div(1e-3)) + ' mm'
     if (ex.gte(1e-6)) return notation(ex.div(1e-6)) + ' μm'
+    if (ex.gte(1e-9)) return notation(ex.div(1e-9)) + ' nm'
     if (ex.gte(1e-12)) return notation(ex.div(1e-12)) + ' pm'
     if (ex.gte(1e-15)) return notation(ex.div(1e-15)) + ' fm'
     if (ex.gte(1e-18)) return notation(ex.div(1e-18)) + ' am'

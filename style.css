@@ -30,7 +30,7 @@ big {
   width: 100%;
   height: 100%;
   background-color: #0006;
-  z-index: 1;
+  z-index: 2;
 
   opacity: 0;
   transform: scale(1.1);
@@ -69,7 +69,7 @@ big {
   min-width: 100px;
   min-height: 30px;
   width: 100%;
-  background-color: rgba(255, 255, 255, 50%);
+  background-color: rgba(255, 255, 255, 75%);
   border-radius: 2px;
   transition-duration: 0.5s;
   border-style: solid;
@@ -86,7 +86,7 @@ big {
   height: auto;
   text-align: left;
   resize: none;
-  font-family: auto;
+  color: #fff;
   background: rgba(128, 128, 128, 0.5);
   border-radius: 4px;
 }
@@ -100,13 +100,14 @@ big {
 .main-sidebar {
   min-height: 50vh;
   overflow-y: hidden;
-  min-width: 10.7vw;
+  min-width: 110px;
   
   padding-left: 1vw;
   padding-right: 1vw;
   z-index: 1;
   text-decoration: none;
   color: white;
+  background: #333;
   display: inline-block;
 }
 .menu {
@@ -114,11 +115,10 @@ big {
 }
 .right {
   position: absolute;
-  margin-left: 270px;
+  margin-left: calc(110px + 1vw * 2);
   padding-left: 0px;
   top: 0px;
-  width: calc(100% - 12.7vw);
-  margin-left: 12.7vw;
+  width: calc(100% - 110px);
   z-index: 1;
   border: 1px;
 }
@@ -128,13 +128,29 @@ big {
   text-align: center;
   color: #eee;
   list-style: none;
-  /*padding-left: 12px;*/
   padding-top: 4px;
   padding-bottom: 4px;
 }
 .nav-item:hover {
   color: #fff;
   background-color: #555;
+}
+
+.nav-item-subtab {
+  display: block;
+  height: 18px;
+  font-size: 80%;
+  text-align: center;
+  color: #eee;
+  list-style: none;
+  padding-top: 4px;
+  margin-left: 25px;
+  padding-bottom: 4px;
+  background: #000;
+}
+.nav-item-subtab:hover {
+  color: #fff;
+  background-color: #444;
 }
 
 .text-center {
@@ -160,7 +176,7 @@ big {
 
 button {
   min-height: 30px;
-  background-color: rgba(255, 255, 255, 50%);
+  background-color: rgba(255, 255, 255, 75%);
   border-radius: 2px;
   transition-duration: 0.5s;
   border-style: solid;
@@ -201,4 +217,80 @@ overflow: hidden;
 display: flex;  
 margin-left: 1px;
 align-items: center;
+}
+
+
+
+
+
+
+
+.img_btn {
+	cursor: pointer;
+	background-color: #444;
+	transition-duration: 0.15s;
+}
+
+
+
+
+.light_red {
+	color: lightcoral;
+}
+
+.red {
+	color: red;
+}
+
+.orange {
+	color: orange;
+}
+
+.yellow {
+	color: yellow;
+}
+
+.limegreen {
+	color: #00ff00;
+}
+
+.green {
+	color: #00bb00;
+}
+
+.light_green {
+	color: lightgreen;
+}
+
+.sky {
+	color: skyblue;
+}
+
+.cyan {
+	color: #07f;
+}
+
+.magenta {
+	color: magenta;
+}
+
+.gray {
+	color: gray
+}
+
+
+#main_upg_msg{
+  text-align: center;
+}
+#main_upg_1_div{
+  text-align: center;
+}
+
+
+.img_btn:not(.locked):not(.bought):hover {
+	background-color: #555
+}
+.img_btn.bought {
+	background-color: #00520b;
+	cursor: default;
 }

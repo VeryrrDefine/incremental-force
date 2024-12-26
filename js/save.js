@@ -10,14 +10,39 @@ function getPlayerData() {
 
         mass: new Decimal(0),
         speed: new Decimal(0),
+        force: new Decimal(0),
+
+        upgrades: {
+            1: new Decimal(0),
+            2: new Decimal(0),
+            3: new Decimal(0),
+            4: new Decimal(0),
+            5: new Decimal(0),
+            6: new Decimal(0),
+        },
+        prestigePoints: new Decimal(0),
+        prestiged: false,
+
+        objMass1: new Decimal(0),
+
+        mainUpg: {
+            pt: []
+        },
+        auto: [],
+
+        options: {
+            formatDisplay: 0
+        }
     }
 
 
     return s
 }
 
-function wipe(reload, start){
+function wipe(reload, start, keepoption=true){
+    if (!start) formatDisplay = player.options.formatDisplay;
 	player = getPlayerData()
+    if (!start) player.formatDisplay = formatDisplay
     if (start) return
 	if (reload) {
         save()
@@ -32,7 +57,7 @@ function clonePlayer(obj,data) {
     for (let k in obj) {
         if (data[k] == null || data[k] == undefined) continue
         unique[k] = Object.getPrototypeOf(data[k]).constructor.name == "Decimal"
-        ? E(obj[k])
+        ? new Decimal(obj[k])
         : typeof obj[k] == 'object'
         ? clonePlayer(obj[k],data[k])
         : obj[k]
@@ -44,7 +69,7 @@ function clonePlayer(obj,data) {
 function deepNaN(obj, data) {
     for (let k in obj) {
         if (typeof obj[k] == 'string') {
-            if (data[k] == null || data[k] == undefined ? false : Object.getPrototypeOf(data[k]).constructor.name == "Decimal") if (isNaN(E(obj[k]).mag)) obj[k] = data[k]
+            if (data[k] == null || data[k] == undefined ? false : Object.getPrototypeOf(data[k]).constructor.name == "Decimal") if (isNaN(new Decimal(obj[k]).mag)) obj[k] = data[k]
         } else {
             if (typeof obj[k] != 'object' && isNaN(obj[k])) obj[k] = data[k]
             if (typeof obj[k] == 'object' && data[k] && obj[k] != null) obj[k] = deepNaN(obj[k], data[k])
@@ -59,7 +84,11 @@ function deepUndefinedAndDecimal(obj, data) {
         if (obj[k] === null) continue
         if (obj[k] === undefined) obj[k] = data[k]
         else {
-            if (Object.getPrototypeOf(data[k]).constructor.name == "Decimal") obj[k] = E(obj[k])
+            if (Object.getPrototypeOf(data[k]).constructor.name == "Decimal") obj[k] = new Decimal(obj[k])
+            else if (typeof obj[k] == 'string') {
+                if (!Decimal.isNaN(new Decimal(data[k]))) 
+                    obj[k] = new Decimal(obj[k])
+            }
             else if (typeof obj[k] == 'object') deepUndefinedAndDecimal(obj[k], data[k])
         }
     }
@@ -171,9 +200,9 @@ function findNaN(obj, str=false, data=getPlayerData(), node='player') {
     for (let k in obj) {
         if (typeof obj[k] == "number") if (isNaNed(obj[k])) return node+'.'+k
         if (str) {
-            if (typeof obj[k] == "string") if (data[k] == null || data[k] == undefined ? false : Object.getPrototypeOf(data[k]).constructor.name == "Decimal") if (isNaN(E(obj[k]).mag)) return node+'.'+k
+            if (typeof obj[k] == "string") if (data[k] == null || data[k] == undefined ? false : Object.getPrototypeOf(data[k]).constructor.name == "Decimal") if (isNaN(new Decimal(obj[k]).mag)) return node+'.'+k
         } else {
-            if (obj[k] == null || obj[k] == undefined ? false : Object.getPrototypeOf(obj[k]).constructor.name == "Decimal") if (isNaN(E(obj[k]).mag)) return node+'.'+k
+            if (obj[k] == null || obj[k] == undefined ? false : Object.getPrototypeOf(obj[k]).constructor.name == "Decimal") if (isNaN(new Decimal(obj[k]).mag)) return node+'.'+k
         }
         if (typeof obj[k] == "object") {
             let node2 = findNaN(obj[k], str, data[k], (node?node+'.':'')+k)
@@ -193,4 +222,13 @@ function loadPlayer(load) {
 }
 function checkVersion() {
     player.VERSION = Math.max(player.VERSION, VERSION)
+}
+
+function hardreset() {
+    createPromptPopup("你确定要硬重置吗? 这将会重置一切！<br>输入\"狂笑的蛇将写散文\"以确认",
+     function(x){
+        
+        if (x=="狂笑的蛇将写散文") wipe(1)
+    }
+     )
 }
